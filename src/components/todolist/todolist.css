@@ -1,0 +1,22 @@
+#todo-modal-body {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: stretch; /* stretch the content to the full width */
+  justify-content: center;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+/* #todo-modal-root {
+    display: flex; */
+/* justify-content: center; */
+/* margin-left: 50%; */
+/* height: 100%;
+    width: 100%; */
+/* } */
+
+#todo-modal-container {
+  justify-content: center;
+  /* margin: 20px; */
+  padding: 20px;
+}
