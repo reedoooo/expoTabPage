@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { View, Button, Text, TextInput, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import EditTaskFormsModal from '../modals/EditTaskFormsModal';
+import Constants from 'expo-constants';
 
-function UpdateTask({ id, task, onClose, isOpen, selectedTask, allTasks }) {
-  const modalBgColor = useColorModeValue('white', 'gray.700');
-  const headerColor = useColorModeValue('gray.700', 'gray.50');
+const { REACT_APP_SERVER } = Constants.manifest.extra;
+console.log('REACT_APP_SERVER', REACT_APP_SERVER);
+
+function UpdateTask({ id, task, onClose, selectedTask, allTasks }) {
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleSubmit = async (updatedTask) => {
     const id = updatedTask.id;
@@ -13,16 +17,16 @@ function UpdateTask({ id, task, onClose, isOpen, selectedTask, allTasks }) {
     console.log(completed);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER}/api/todo/${id}`,
+        `${REACT_APP_SERVER}/api/todo/${id}`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...updatedTask }),
         }
       );
-      window.location.reload();
       const data = await response.json();
       console.log(data);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -32,7 +36,7 @@ function UpdateTask({ id, task, onClose, isOpen, selectedTask, allTasks }) {
     const id = deletedTask.id;
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER}/api/todo/${id}`,
+        `${REACT_APP_SERVER}/api/todo/${id}`,
         {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
@@ -40,6 +44,7 @@ function UpdateTask({ id, task, onClose, isOpen, selectedTask, allTasks }) {
       );
       const data = await response.json();
       console.log(data);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     }
@@ -50,7 +55,7 @@ function UpdateTask({ id, task, onClose, isOpen, selectedTask, allTasks }) {
       <Modal
         animationType="slide"
         transparent={false}
-        visible={modalVisible}
+        visible={modalOpen}
         onRequestClose={onClose}
       >
         <View style={styles.modalContent}>
@@ -65,7 +70,7 @@ function UpdateTask({ id, task, onClose, isOpen, selectedTask, allTasks }) {
             onDelete={handleDelete}
             selectedTask={selectedTask}
             allTasks={allTasks}
-          />{' '}
+          />
           <TextInput style={styles.input} placeholder="Update Task" />
           <Button onPress={handleSubmit} title="Submit" />
         </View>
@@ -99,5 +104,40 @@ const styles = StyleSheet.create({
   },
 });
 
-
 export default UpdateTask;
+// UpdateTask.js
+// import React from 'react';
+// import { View, Button, Text, StyleSheet } from 'react-native';
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     paddingHorizontal: 10,
+//   },
+//   box: {
+//     backgroundColor: '#f0f0f0',
+//     padding: 10,
+//     marginBottom: 15,
+//   },
+//   text: {
+//     fontSize: 16,
+//   },
+// });
+
+// function UpdateTask({ task, onClose }) {
+//   return (
+//     <View style={styles.container}>
+//       <View style={styles.box}>
+//         <Text style={styles.text}>Update Task: {task.name}</Text>
+//         <Text style={styles.text}>Description: {task.description}</Text>
+//         <Text style={styles.text}>
+//           Status: {task.status ? 'completed' : 'incomplete'}
+//         </Text>
+//         <Button onPress={onClose} title="Close" />
+//       </View>
+//     </View>
+//   );
+// }
+
+// export default UpdateTask;

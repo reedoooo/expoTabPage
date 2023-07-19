@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextInput, Picker, View, Image } from 'react-native';
+import { TouchableOpacity, TextInput, View, Image, Text, StyleSheet } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import Modal from 'react-native-modal';
+import { Ionicons } from '@expo/vector-icons';
+
+const CustomButton = ({ onPress, color, title }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={[styles.button, { backgroundColor: color }]}
+  >
+    <Text style={styles.buttonText}>{title}</Text>
+  </TouchableOpacity>
+);
 
 export default function EditTabFormsModal({
   selectedTab,
@@ -32,14 +43,16 @@ export default function EditTabFormsModal({
 
   return (
     <Modal isVisible={true} onBackdropPress={onClose}>
-      <View style={{ backgroundColor: 'white', padding: 22, borderRadius: 16 }}>
+      <View style={styles.modalContainer}>
         <TextInput
+          style={styles.input}
           placeholder="Name"
           value={name}
           onChangeText={setName}
         />
         <Picker
           selectedValue={size}
+          style={styles.picker}
           onValueChange={(itemValue, itemIndex) => setSize(itemValue)}
         >
           <Picker.Item label="Small" value="small" />
@@ -47,6 +60,7 @@ export default function EditTabFormsModal({
         </Picker>
         <Picker
           selectedValue={color}
+          style={styles.picker}
           onValueChange={(itemValue, itemIndex) => setColor(itemValue)}
         >
           <Picker.Item label="Red" value="red" />
@@ -57,24 +71,65 @@ export default function EditTabFormsModal({
           <Picker.Item label="White" value="white" />
         </Picker>
         <TextInput
+          style={styles.input}
           placeholder="Link URL"
           value={linkUrl}
           onChangeText={setLinkUrl}
         />
         <TextInput
+          style={styles.input}
           placeholder="Image URL"
           value={imgUrl}
           onChangeText={setImgUrl}
         />
         <Image
           source={{ uri: imgUrl }}
-          style={{ width: 150, height: 150 }}
+          style={styles.imagePreview}
           resizeMode="cover"
         />
-        <Button title="Save Changes" onPress={handleFormSubmit} />
-        <Button title="Delete" onPress={handleFormDelete} color="red" />
-        <Button title="Cancel" onPress={onClose} color="gray" />
+        <CustomButton color="#fca311" title="Save Changes" onPress={handleFormSubmit} />
+        <CustomButton color="#d90429" title="Delete" onPress={handleFormDelete} />
+        <CustomButton color="#14213d" title="Cancel" onPress={onClose} />
       </View>
     </Modal>
   );
 }
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    backgroundColor: 'white', 
+    padding: 22, 
+    borderRadius: 16, 
+    alignItems: 'center'
+  },
+  input: {
+    width: '100%', 
+    height: 40, 
+    borderColor: 'gray', 
+    borderWidth: 1, 
+    marginTop: 10, 
+    borderRadius: 5, 
+    paddingLeft: 10
+  },
+  picker: {
+    width: '100%', 
+    marginTop: 10
+  },
+  imagePreview: {
+    width: 150, 
+    height: 150, 
+    marginTop: 20
+  },
+  button: {
+    width: '100%', 
+    height: 50, 
+    borderRadius: 25, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    marginTop: 10
+  },
+  buttonText: {
+    color: 'white', 
+    fontWeight: 'bold'
+  }
+});

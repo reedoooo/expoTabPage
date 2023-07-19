@@ -1,6 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet, Platform, Dimensions } from 'react-native';
 import NotesAccordion from '../../components/notes/NotesAccordion'; // You'll need to create a native version of this component
+import Constants from 'expo-constants';
+
+const { REACT_APP_SERVER } = Constants.manifest.extra;
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    zIndex: 1000,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modal: {
+    width: windowWidth * 0.8,
+    maxHeight: windowHeight * 0.8,
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // semi-transparent white background
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: Platform.OS === 'android' ? 5 : 0,
+  },
+});
 
 function NotesContainer() {
   const [savedNotesData, setSavedNotesData] = useState([]);
@@ -15,7 +46,7 @@ function NotesContainer() {
         };
 
         const serverResponse = await fetch(
-          `${process.env.REACT_APP_SERVER}/api/notes`,
+          `${REACT_APP_SERVER}/api/notes`,
           requestOptions,
         );
 
@@ -59,17 +90,19 @@ function NotesContainer() {
   };
 
   return (
-    <View>
-      <NotesAccordion
-        note={note}
-        setNote={setNote}
-        editing={editing}
-        allNotes={savedNotesData}
-        setAllNotes={setSavedNotesData} // Add setAllNotes prop with the setSavedNotesData function
-        setEditing={setEditing}
-        handleSaveNote={handleSaveNote}
-        handleUpdateNote={handleUpdateNote}
-      />
+    <View style={styles.container}>
+      <View style={styles.modal}>
+        <NotesAccordion
+          note={note}
+          setNote={setNote}
+          editing={editing}
+          allNotes={savedNotesData}
+          setAllNotes={setSavedNotesData} 
+          setEditing={setEditing}
+          handleSaveNote={handleSaveNote}
+          handleUpdateNote={handleUpdateNote}
+        />
+      </View>
     </View>
   );
 }

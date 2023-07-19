@@ -25,6 +25,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "REACT_APP_SERVER": "http://localhost:3001",
+      "REACT_APP_OPENAI_KEY": "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"
     }
   }
 }

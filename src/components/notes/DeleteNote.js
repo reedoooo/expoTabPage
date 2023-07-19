@@ -1,12 +1,16 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
+
+const { REACT_APP_SERVER } = Constants.manifest.extra;
+console.log('REACT_APP_SERVER', REACT_APP_SERVER);
 
 function DeleteNote({ noteId, handleNoteDeletion }) {
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER}/api/notes/${noteId}`,
+        `${REACT_APP_SERVER}/api/notes/${noteId}`,
         {
           method: 'DELETE',
         },

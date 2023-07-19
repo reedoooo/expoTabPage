@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, View, Text } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { TouchableOpacity, View, Text } from 'react-native';
 import Modal from 'react-native-modal';
 import CreateTask from '../todolist/CreateTask';
 
@@ -8,7 +9,9 @@ export default function ToDoListModal({ isOpen, onClose }) {
     <Modal isVisible={isOpen} onBackdropPress={onClose}>
       <View style={{ backgroundColor: 'white', padding: 22, borderRadius: 16 }}>
         <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Todo List</Text>
-        <Button title="Close" onPress={onClose} />
+        <TouchableOpacity onPress={onClose}>
+          <AntDesign name="closecircle" size={24} color="black" />
+        </TouchableOpacity>
         <View style={{ alignItems: 'center' }}>
           <CreateTask />
         </View>

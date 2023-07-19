@@ -5,6 +5,10 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { useDebounce } from 'use-debounce';
+import Constants from 'expo-constants';
+
+const { REACT_APP_SERVER, REACT_APP_OPENAI_KEY } = Constants.manifest.extra;
+console.log('REACT_APP_SERVER', REACT_APP_SERVER);
 
 function ChatGPT() {
   const [query, setQuery] = useState('');
@@ -12,7 +16,6 @@ function ChatGPT() {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState('');
   const [savedResponses, setSavedResponses] = useState([]);
-  const OPENAI_KEY = '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';
 
   const handleSearch = async () => {
     if (!debouncedQuery) {
@@ -33,17 +36,22 @@ function ChatGPT() {
       };
 
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER}/api/chat/completions`,
+        `${REACT_APP_SERVER}/api/chat/completions`,
         requestBody,
         {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${OPENAI_KEY}`,
+            Authorization: `Bearer ${REACT_APP_OPENAI_KEY}`,
           },
         },
       );
-      setResponse(response.data.choices[0].text);
+
+      if(response.status === 200) {
+        setResponse(response.data.choices[0].text);
+        setQuery('');  // Clear the query input after a successful search
+      }
     } catch (error) {
+      console.log(error); // Log the error for debugging
       ToastAndroid.show('An error occurred. Please try again later.', ToastAndroid.SHORT);
     }
 
@@ -52,12 +60,13 @@ function ChatGPT() {
 
   const handleSaveToResponses = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_SERVER}/api/chat`, {
+      await axios.post(`${REACT_APP_SERVER}/api/chat`, {
         savedResponses: response,
       });
 
       ToastAndroid.show('Response saved to responses.', ToastAndroid.SHORT);
     } catch (error) {
+      console.log(error); // Log the error for debugging
       ToastAndroid.show('An error occurred. Could not save the responses.', ToastAndroid.SHORT);
     }
   };
@@ -65,10 +74,17 @@ function ChatGPT() {
   useEffect(() => {
     const fetchResponses = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_SERVER}/api/chat`);
-        setSavedResponses(res.data || []); // If response is null, it will default to an empty array
+        const res = await axios.get(`${REACT_APP_SERVER}/api/chat`);
+        if (res.status === 200) {
+          // Validate the data format before setting it
+          if (Array.isArray(res.data)) {
+            setSavedResponses(res.data);
+          } else {
+            console.log('Invalid data format received');
+          }
+        }
       } catch (error) {
-        // Only console error and show a toast if it's an actual error
+        console.log(error); // Log the error for debugging
         if (error.response) {
           ToastAndroid.show('An error occurred. Could not fetch responses.', ToastAndroid.SHORT);
         }

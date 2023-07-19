@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Constants from 'expo-constants';
+
+const { REACT_APP_SERVER } = Constants.manifest.extra;
+console.log('REACT_APP_SERVER', REACT_APP_SERVER);
 
 const useTasks = (initialTasks = []) => {
   const [tasks, setTasks] = useState(initialTasks);
@@ -8,7 +12,7 @@ const useTasks = (initialTasks = []) => {
     const fetchTasks = async () => {
       try {
         const { data } = await axios.get(
-          `${process.env.REACT_APP_SERVER}/api/mytodo`,
+          `${REACT_APP_SERVER}/api/mytodo`,
         );
         setTasks(data);
       } catch (error) {
@@ -22,7 +26,7 @@ const useTasks = (initialTasks = []) => {
   const addTask = async (newTask) => {
     try {
       const { data: task } = await axios.post(
-        `${process.env.REACT_APP_SERVER}/api/mytodo`,
+        `${REACT_APP_SERVER}/api/mytodo`,
         newTask,
         { headers: { 'Content-Type': 'application/json' } },
       );
@@ -34,7 +38,7 @@ const useTasks = (initialTasks = []) => {
 
   const deleteTask = async (id) => {
     try {
-      await axios.delete(`${process.env.REACT_APP_SERVER}/api/mytodo/${id}`);
+      await axios.delete(`${REACT_APP_SERVER}/api/todo/${id}`);
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
     } catch (error) {
       console.error('Delete task error:', error.message);
@@ -46,7 +50,7 @@ const useTasks = (initialTasks = []) => {
     if (taskToToggle) {
       const updatedTask = { ...taskToToggle, status: !taskToToggle.status };
       try {
-        await axios.put(`${process.env.REACT_APP_SERVER}/api/mytodo/${id}`, {
+        await axios.put(`${REACT_APP_SERVER}/api/todo/${id}`, {
           task: updatedTask,
         });
         setTasks((prevTasks) =>

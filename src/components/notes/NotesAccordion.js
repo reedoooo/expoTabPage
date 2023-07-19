@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Modal,
+  Button
 } from 'react-native';
 import CreateNote from './CreateNote';
 import UpdateNote from './UpdateNote';
@@ -18,6 +20,8 @@ function NotesAccordion({
   setEditing,
   handleSaveNote,
   handleUpdateNote,
+  isOpen,
+  onClose,
 }) {
   const handleNewNote = () => {
     setNote({ title: '', notes: '' });
@@ -34,62 +38,72 @@ function NotesAccordion({
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.heading}>My Notes</Text>
-      </View>
-      <View style={styles.content}>
-        <ScrollView style={styles.notesList}>
-          <TouchableOpacity style={styles.button} onPress={handleNewNote}>
-            <Text style={styles.buttonText}>Add Note</Text>
-          </TouchableOpacity>
-          {allNotes.map((noteItem) => (
-            <TouchableOpacity
-              key={noteItem.id || noteItem._id}
-              style={styles.button}
-              onPress={() => handleExistingNote(noteItem)}
-            >
-              <Text style={styles.buttonText}>{noteItem.title}</Text>
+    <Modal visible={isOpen} onRequestClose={onClose} animationType="slide" transparent>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.heading}>My Notes</Text>
+          <Button title="Close" onPress={onClose} color="white"/>
+        </View>
+        <View style={styles.content}>
+          <ScrollView style={styles.notesList}>
+            <TouchableOpacity style={styles.button} onPress={handleNewNote}>
+              <Text style={styles.buttonText}>Add Note</Text>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
-        <View style={styles.noteContent}>
-          {editing ? (
-            <UpdateNote
-              setEditing={setEditing}
-              id={note?.id}
-              isOpen={!!note}
-              note={note}
-              allNotes={allNotes}
-              selectedNote={note}
-              setNote={setNote}
-              handleDeleteNote={handleDeleteNote}
-              handleUpdateNote={handleUpdateNote}
-            />
-          ) : (
-            <CreateNote
-              setEditing={setEditing}
-              allNotes={allNotes}
-              note={note}
-              setNote={setNote}
-              handleSaveNote={handleSaveNote}
-            />
-          )}
+            {allNotes.map((noteItem) => (
+              <TouchableOpacity
+                key={noteItem.id || noteItem._id}
+                style={styles.button}
+                onPress={() => handleExistingNote(noteItem)}
+              >
+                <Text style={styles.buttonText}>{noteItem.title}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <View style={styles.noteContent}>
+            {editing ? (
+              <UpdateNote
+                setEditing={setEditing}
+                id={note?.id}
+                isOpen={!!note}
+                note={note}
+                allNotes={allNotes}
+                selectedNote={note}
+                setNote={setNote}
+                handleDeleteNote={handleDeleteNote}
+                handleUpdateNote={handleUpdateNote}
+              />
+            ) : (
+              <CreateNote
+                setEditing={setEditing}
+                allNotes={allNotes}
+                note={note}
+                setNote={setNote}
+                handleSaveNote={handleSaveNote}
+              />
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 22,
+    marginHorizontal: 20,
     padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   header: {
     backgroundColor: 'blue',
     borderRadius: 10,
     padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   heading: {
     fontSize: 20,

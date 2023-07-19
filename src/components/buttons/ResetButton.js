@@ -1,4 +1,4 @@
-// AddTabModalButton
+// ResetButton
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,7 +7,7 @@ const buttonStyle = {
   width: 50,
   height: 50,
   borderRadius: 25,
-  backgroundColor: 'teal',
+  backgroundColor: '#ff6347', // Different color to differentiate
   justifyContent: 'center',
   alignItems: 'center',
   shadowColor: '#000',
@@ -17,12 +17,12 @@ const buttonStyle = {
   elevation: 5,
 };
 
-function AddTabModalButton({ onOpen }) {
+function ResetButton({ onPress }) {
   return (
-    <TouchableOpacity style={buttonStyle} onPress={onOpen}>
-      <Ionicons name="add" size={24} color="white" />
+    <TouchableOpacity style={buttonStyle} onPress={onPress}>
+      <Ionicons name="refresh-circle" size={24} color="white" />
     </TouchableOpacity>
   );
 }
 
-export default AddTabModalButton;
+export default ResetButton;
