@@ -47,7 +47,10 @@ export default function ToDoList({ initialTask }) {
   const [savedTasks, setSavedTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
   const [incompleteTasks, setIncompleteTasks] = useState([]);
+  const [modalVisible, setModalVisible] = useState(true); // new state for modal visibility
 
+
+	
   // useEffect hook to fetch task data
   useEffect(() => {
     const fetchTodoLists = async () => {

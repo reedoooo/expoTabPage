@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function NotesContainer() {
+function NotesContainer({handleResetActiveComponent}) {
   const [savedNotesData, setSavedNotesData] = useState([]);
   const [note, setNote] = useState({});
   const [editing, setEditing] = useState(false);
@@ -47,7 +47,7 @@ function NotesContainer() {
 
         const serverResponse = await fetch(
           `${REACT_APP_SERVER}/api/notes`,
-          requestOptions,
+          requestOptions
         );
 
         const serverData = await serverResponse.json();
@@ -84,8 +84,8 @@ function NotesContainer() {
   const handleUpdateNote = (updatedNote) => {
     setSavedNotesData((prevNotes) =>
       prevNotes.map((note) =>
-        note.id === updatedNote._id ? updatedNote : note,
-      ),
+        note.id === updatedNote._id ? updatedNote : note
+      )
     );
   };
 
@@ -94,10 +94,11 @@ function NotesContainer() {
       <View style={styles.modal}>
         <NotesAccordion
           note={note}
+          handleResetActiveComponent={handleResetActiveComponent}
           setNote={setNote}
           editing={editing}
           allNotes={savedNotesData}
-          setAllNotes={setSavedNotesData} 
+          setAllNotes={setSavedNotesData}
           setEditing={setEditing}
           handleSaveNote={handleSaveNote}
           handleUpdateNote={handleUpdateNote}

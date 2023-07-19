@@ -3,7 +3,7 @@ import { TouchableOpacity, Dimensions, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function ToDoListButton({ handleButtonClick }) {
-	const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(true);
 
     const handleClick = () => {
         if (typeof handleButtonClick === "function") {
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         borderColor: '#ccc',
+        backgroundColor: '#fff',  // Added background color
     },
 });
 

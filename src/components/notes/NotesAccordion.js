@@ -22,6 +22,7 @@ function NotesAccordion({
   handleUpdateNote,
   isOpen,
   onClose,
+  handleResetActiveComponent
 }) {
   const handleNewNote = () => {
     setNote({ title: '', notes: '' });
@@ -42,7 +43,7 @@ function NotesAccordion({
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.heading}>My Notes</Text>
-          <Button title="Close" onPress={onClose} color="white"/>
+          <Button title="Close" onPress={handleResetActiveComponent} backgroundColor="white" color="black" />
         </View>
         <View style={styles.content}>
           <ScrollView style={styles.notesList}>

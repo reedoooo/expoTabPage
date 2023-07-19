@@ -20,6 +20,7 @@
     "dotenv": "^16.3.1",
     "expo": "~48.0.18",
     "expo-constants": "~14.2.1",
+    "expo-linear-gradient": "~12.1.2",
     "expo-status-bar": "~1.4.4",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
@@ -27,6 +28,7 @@
     "react-hook-form": "^7.45.2",
     "react-native": "0.71.8",
     "react-native-bootsplash": "^4.7.5",
+    "react-native-camera": "^3.44.3",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-linear-gradient": "^2.7.3",
@@ -41,7 +43,8 @@
     "react-native-vector-icons": "^10.0.0",
     "react-native-web": "~0.18.10",
     "react-query": "^3.39.3",
-    "use-debounce": "^9.0.4"
+    "use-debounce": "^9.0.4",
+    "expo-camera": "~13.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
