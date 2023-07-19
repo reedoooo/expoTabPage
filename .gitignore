@@ -124,6 +124,7 @@ logs
 cleanup
 Dockerfile
 docker-compose.yml
+package-lock.json
 .prettierrc
 .eslintrc.js
 .eslintrc.json
