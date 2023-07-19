@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    backgroundColor: 'teal',
+    backgroundColor: 'rgba(0,128,128,0.5)', // teal color with 50% transparency
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -24,6 +24,8 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
     zIndex: 100,
+    borderWidth: 2, // width of the border
+    borderColor: '#fff', // color of the border
   },
   modalContent: {
     padding: 20,

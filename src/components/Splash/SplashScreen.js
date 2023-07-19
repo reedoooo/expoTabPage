@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const SplashScreen = () => (
   <View style={styles.container}>
-    <Text style={styles.title}>My App</Text>
+    <Text style={styles.title}>TabPro</Text>
   </View>
 );
 

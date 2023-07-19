@@ -4,27 +4,27 @@ import { View, StyleSheet, Platform, TouchableOpacity, Text } from 'react-native
 import AddTabModalButton from '../../components/buttons/AddTabModalButton';
 import OpenSettingsButton from '../../components/buttons/OpenSettingsButton';
 import ResetButton from '../../components/buttons/ResetButton';
+import CameraModalButton from '../../components/camera/CameraModalButton';
 
-function Header({ addTabModalDisclosure, settingsModalDisclosure, handleReset }) {
+function Header({ addTabModalDisclosure, settingsModalDisclosure, handleReset, cameraModalDisclosure }) {
   return (
     <View style={styles.container}>
       <OpenSettingsButton onOpen={settingsModalDisclosure.onOpen} style={styles.button} />
       <AddTabModalButton onOpen={addTabModalDisclosure.onOpen} style={styles.button} />
       <ResetButton handleReset={handleReset} style={styles.button} />
-      {/* <TouchableOpacity style={styles.resetButton} onPress={() => handleReset(null)}>
-        <Text style={styles.resetIcon}>X</Text> 
-      </TouchableOpacity> */}
+      <CameraModalButton onOpen={cameraModalDisclosure.onOpen} style={styles.button} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: Platform.OS === 'ios' ? 70 : 50,
-    paddingTop: Platform.OS === 'ios' ? 20 : 0,
+    height: Platform.OS === 'ios' ? 100 : 80, // height increased
+    paddingTop: Platform.OS === 'ios' ? 30 : 10, // paddingTop increased for better centering
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    top: 0,
     padding: 20,
     backgroundColor: '#1c1c1e',
     borderBottomWidth: 1,

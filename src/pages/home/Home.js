@@ -6,6 +6,8 @@ import EditModal from '../../components/modals/AddTabFormsModal';
 import OpenSettingsModal from '../../components/modals/OpenSettingsModal';
 import TabGridContainer from '../../containers/gridcontainer/TabGridContainer';
 import Constants from 'expo-constants';
+import CameraModal from '../../components/camera/Camera';
+
 
 const { REACT_APP_SERVER } = Constants.manifest.extra;
 console.log('REACT_APP_SERVER', REACT_APP_SERVER);
@@ -17,11 +19,65 @@ function Home() {
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(false);
   const [dataUpdated, setDataUpdated] = useState(false);
   const [activeComponent, setActiveComponent] = useState(null);
+  const [isCameraModalOpen, setCameraModalOpen] = useState(false);
 
-  // const [modalVisible, setModalVisible] = useState(false);
+  const cameraModalDisclosure = {
+    isOpen: isCameraModalOpen,
+    onOpen: () => setCameraModalOpen(true),
+    onClose: () => setCameraModalOpen(false),
+  };
 
-  // const handleOpenModal = () => setModalVisible(true);
-  // const handleCloseModal = () => setModalVisible(false);
+  // Form states
+  const [linkFormValues, setLinkFormValues] = useState({
+    name: '',
+    size: '',
+    color: '',
+    linkUrl: '',
+    imgUrl: '',
+  });
+
+  const [settingsFormValues, setSettingsFormValues] = useState({
+    name: '',
+    color: '',
+  });
+
+  const handleAddLink = (e) => {
+    e.preventDefault();
+
+    if (
+      linkFormValues.name &&
+      linkFormValues.size &&
+      linkFormValues.color &&
+      linkFormValues.linkUrl &&
+      linkFormValues.imgUrl
+    ) {
+      handleAddTabToServer(linkFormValues);
+      setLinkFormValues({
+        name: '',
+        size: '',
+        color: '',
+        linkUrl: '',
+        imgUrl: '',
+      });
+    }
+
+    addTabModalDisclosure.onClose();
+  };
+
+  const handleChangeSettings = (e) => {
+    e.preventDefault();
+
+    if (settingsFormValues.name && settingsFormValues.color) {
+      saveSettingsChangesToServer(settingsFormValues);
+      setSettingsFormValues({
+        name: '',
+        color: '',
+      });
+    }
+
+    settingsModalDisclosure.onClose();
+  };
+
   const handleButtonClick = (componentName) => {
     setActiveComponent(componentName);
   };
@@ -29,10 +85,11 @@ function Home() {
   const resetActiveComponent = () => {
     setActiveComponent(null);
   };
+
   useEffect(() => {
     fetchSavedTabsData();
     fetchSavedSettings();
-  }, [dataUpdated]); // dataUpdated added to dependency array
+  }, [dataUpdated]);
 
   const fetchSavedTabsData = async () => {
     try {
@@ -107,47 +164,6 @@ function Home() {
     }
   };
 
-  const handleAddLink = (e) => {
-    e.preventDefault();
-    const { name, size, color, linkUrl, imgUrl } = e.target.elements;
-
-    if (
-      name.value &&
-      size.value &&
-      color.value &&
-      linkUrl.value &&
-      imgUrl.value
-    ) {
-      const newLink = {
-        name: name.value,
-        size: size.value,
-        color: color.value,
-        linkUrl: linkUrl.value,
-        imgUrl: imgUrl.value,
-      };
-
-      handleAddTabToServer(newLink);
-    }
-
-    addTabModalDisclosure.onClose();
-  };
-
-  const handleChangeSettings = (e) => {
-    e.preventDefault();
-    const { name, color } = e.target.elements;
-
-    if (name.value && color.value) {
-      const newSetting = {
-        name: name.value,
-        color: color.value,
-      };
-
-      saveSettingsChangesToServer(newSetting);
-    }
-
-    settingsModalDisclosure.onClose();
-  };
-
   const addTabModalDisclosure = {
     isOpen: isAddTabModalOpen,
     onOpen: () => setAddTabModalOpen(true),
@@ -166,23 +182,34 @@ function Home() {
         addTabModalDisclosure={addTabModalDisclosure}
         settingsModalDisclosure={settingsModalDisclosure}
         resetActiveComponent={resetActiveComponent}
+        cameraModalDisclosure={cameraModalDisclosure} // new camera modal disclosure prop
+      />
+
+      <CameraModal
+        isOpen={isCameraModalOpen}
+        onClose={cameraModalDisclosure.onClose}
       />
 
       <EditModal
         isOpen={isAddTabModalOpen}
         onClose={addTabModalDisclosure.onClose}
         onSubmit={handleAddLink}
+        formValues={linkFormValues}
+        setFormValues={setLinkFormValues}
       />
 
       <OpenSettingsModal
         visible={settingsModalDisclosure.isOpen}
         onClose={settingsModalDisclosure.onClose}
         onSubmit={handleChangeSettings}
+        formValues={settingsFormValues}
+        setFormValues={setSettingsFormValues}
       />
 
       <TabGridContainer
         activeComponent={activeComponent}
         handleButtonClick={handleButtonClick}
+        handleResetActiveComponent={resetActiveComponent}
         savedTabsData={savedTabsData}
         savedSettingsData={savedSettingsData}
       />

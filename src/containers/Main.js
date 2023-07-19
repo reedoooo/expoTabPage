@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { LinearGradient } from 'expo-linear-gradient';
 
 import Home from '../pages/home/Home';
 import SplashScreen from '../components/Splash/SplashScreen';
@@ -27,15 +28,20 @@ const Main = (props) => {
         <Stack.Screen
           name="Home"
           children={(propsNav) => (
-            <Home
-              {...propsNav}
-              savedTabsData={props.savedTabsData}
-              savedNotesData={props.savedNotesData}
-            />
+            <LinearGradient
+              colors={['#808080', '#A9A9A9']} // gradient colors from dark grey to light grey
+              style={{flex: 1}}
+            >
+              <Home
+                {...propsNav}
+                savedTabsData={props.savedTabsData}
+                savedNotesData={props.savedNotesData}
+              />
+            </LinearGradient>
           )}
           options={{
             headerStyle: {
-              backgroundColor: '#00008b', // deep blue color
+              backgroundColor: '#808080', // dark grey color
             },
             headerTintColor: '#fff', // white color
             headerTitleStyle: {

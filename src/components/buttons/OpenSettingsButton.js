@@ -7,7 +7,7 @@ const buttonStyle = {
   width: 50,
   height: 50,
   borderRadius: 25,
-  backgroundColor: '#ff6347', // Different color to differentiate
+  backgroundColor: 'rgba(255,99,71,0.5)', // Different color to differentiate
   justifyContent: 'center',
   alignItems: 'center',
   shadowColor: '#000',
@@ -15,6 +15,8 @@ const buttonStyle = {
   shadowOpacity: 0.8,
   shadowRadius: 2,
   elevation: 5,
+  borderWidth: 2, // width of the border
+  borderColor: '#fff', // color of the border
 };
 
 function OpenSettingsButton({ onOpen }) {

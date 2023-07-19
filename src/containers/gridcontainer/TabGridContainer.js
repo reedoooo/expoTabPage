@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import TaskList from './TaskList'; // New Component
 
-function TabGridContainer({ savedTabsData, activeComponent, setActiveComponent, handleButtonClick }) {
+function TabGridContainer({ savedTabsData, handleResetActiveComponent, activeComponent, setActiveComponent, handleButtonClick }) {
   console.log('savedTabsData', savedTabsData);
   const [selectedTab, setSelectedTab] = useState(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
@@ -20,6 +20,7 @@ function TabGridContainer({ savedTabsData, activeComponent, setActiveComponent, 
   return (
     <TaskList
       savedTabsData={savedTabsData}
+      handleResetActiveComponent={handleResetActiveComponent}
       activeComponent={activeComponent}
       setActiveComponent={setActiveComponent}
       handleButtonClick={handleButtonClick}

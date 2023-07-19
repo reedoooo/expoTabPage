@@ -11,24 +11,38 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.reedthahuman.myProjectName",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow access to the camera",
+        "NSMicrophoneUsageDescription": "Allow access to the microphone",
+        "NSPhotoLibraryUsageDescription": "Allow access to the photo library"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.reedthahuman.myProjectName",
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "REACT_APP_SERVER": "http://localhost:3001",
-      "REACT_APP_OPENAI_KEY": "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"
+      "REACT_APP_OPENAI_KEY": "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",
+      "eas": {
+        "projectId": "9fd9ebf2-6ee7-4756-b592-514b312869b4"
+      }
     }
   }
 }

@@ -19,7 +19,8 @@ function TaskList({
   selectedTab,
   isEditModalOpen,
   activeComponent,
-  handleButtonClick
+  handleButtonClick,
+	handleResetActiveComponent
 }) {
   // const [activeComponent, setActiveComponent] = useState(null);
 
@@ -43,9 +44,9 @@ function TaskList({
 
 				<View style={activeComponent === 'NotesContainer' ? styles.fullWidthComponent : styles.buttonComponent}>
           {activeComponent !== 'NotesContainer' && (
-            <NotesContainerButton handleButtonClick={handleButtonClick} />
+            <NotesContainerButton handleButtonClick={handleButtonClick} handleResetActiveComponent={handleResetActiveComponent} />
           )}
-          {activeComponent === 'NotesContainer' && <NotesContainer />}
+          {activeComponent === 'NotesContainer' && <NotesContainer handleResetActiveComponent={handleResetActiveComponent} />}
         </View>
       </View>
 
@@ -83,11 +84,13 @@ function TaskList({
 }
 
 // Styling
+// Styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
     justifyContent: 'space-around',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Change this line for translucency
   },
   grid: {
     flexDirection: 'row',
@@ -107,10 +110,10 @@ const styles = StyleSheet.create({
     width: '30%',
     aspectRatio: 1,
   },
-	fullWidthComponent: {
-		flex: 1,
-		width: '100%',
-	},
+  fullWidthComponent: {
+    flex: 1,
+    width: '100%',
+  },
   specialGridItem: {
     margin: 5,
     width: '30%',
@@ -118,6 +121,7 @@ const styles = StyleSheet.create({
     // add additional styles for your special grid item if needed
   },
 });
+
 
 
 
