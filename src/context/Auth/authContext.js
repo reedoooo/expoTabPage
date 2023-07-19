@@ -4,6 +4,10 @@ import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
 export const AuthContext = React.createContext();
+import Constants from 'expo-constants';
+
+const { REACT_APP_SERVER } = Constants.manifest.extra;
+console.log('REACT_APP_SERVER', REACT_APP_SERVER);
 
 export default function AuthProvider(props) {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
@@ -30,7 +34,7 @@ export default function AuthProvider(props) {
 
       const options = {
         method: 'GET',
-        url: `${process.env.REACT_APP_SERVER}/api/users/profile`,
+        url: `${REACT_APP_SERVER}/api/users/profile`,
         headers: { Authorization: `Bearer ${token}` },
       };
 
@@ -54,7 +58,7 @@ export default function AuthProvider(props) {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER}/api/users/signin`,
+        `${REACT_APP_SERVER}/api/users/signin`,
         login_data,
       );
       console.log('Login response: ', response.data);
@@ -78,7 +82,7 @@ export default function AuthProvider(props) {
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_SERVER}/api/users/signup`,
+        `${REACT_APP_SERVER}/api/users/signup`,
         data,
       );
       console.log('Signup response: ', response.data);

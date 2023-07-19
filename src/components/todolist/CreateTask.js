@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, Button, TextInput, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
+import Constants from 'expo-constants';
+
+const { REACT_APP_SERVER } = Constants.manifest.extra;
+console.log('REACT_APP_SERVER', REACT_APP_SERVER);
 
 function CreateTask() {
   const [description, setDescription] = useState('');
@@ -12,7 +16,7 @@ function CreateTask() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER}/api/todo`, {
+      const response = await fetch(`${REACT_APP_SERVER}/api/todo`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

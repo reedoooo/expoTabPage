@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput, Button, Keyboard, KeyboardAvoidingView, Platform } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 
 const EditTaskFormsModal = ({ initialValues, onSubmit, onClose, onDelete }) => {
@@ -9,9 +9,6 @@ const EditTaskFormsModal = ({ initialValues, onSubmit, onClose, onDelete }) => {
   const [status, setStatus] = useState(initialValues.status || '');
   const [dueDate, setDueDate] = useState('');
 
-  let id = initialValues.id;
-  let deleteId = initialValues.id;
-
   useEffect(() => {
     const date = new Date(initialValues.dueDate);
     const formattedDueDate = `${date.getFullYear()}-${String(
@@ -20,19 +17,20 @@ const EditTaskFormsModal = ({ initialValues, onSubmit, onClose, onDelete }) => {
     setDueDate(formattedDueDate);
   }, [initialValues.dueDate]);
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    onSubmit({ id, name, status, description, dueDate });
+  const handleFormSubmit = () => {
+    Keyboard.dismiss();
+    onSubmit({ id: initialValues.id, name, status, description, dueDate });
   };
 
-  const handleFormDelete = (e) => {
-    e.preventDefault();
-    let id = deleteId;
-    onDelete({ id, name, status, description, dueDate });
+  const handleFormDelete = () => {
+    Keyboard.dismiss();
+    onDelete({ id: initialValues.id, name, status, description, dueDate });
   };
 
   return (
-    <View>
+    <KeyboardAvoidingView 
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}>
       <View>
         <TextInput
           style={{ color: colors.text, borderColor: colors.border }}
@@ -40,53 +38,47 @@ const EditTaskFormsModal = ({ initialValues, onSubmit, onClose, onDelete }) => {
           value={name}
           placeholder="Name"
         />
-      </View>
 
-      <View>
         <TextInput
           style={{ color: colors.text, borderColor: colors.border }}
           onChangeText={setDescription}
           value={description}
           placeholder="Description"
         />
-      </View>
 
-      <View>
         <TextInput
           style={{ color: colors.text, borderColor: colors.border }}
           onChangeText={setDueDate}
           value={dueDate}
           placeholder="Due Date"
         />
-      </View>
 
-      <View>
         <TextInput
           style={{ color: colors.text, borderColor: colors.border }}
           onChangeText={setStatus}
           value={status}
           placeholder="Status"
         />
-      </View>
 
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Button
-          title="Save"
-          color="green"
-          onPress={handleFormSubmit}
-        />
-        <Button
-          title="Delete"
-          color="red"
-          onPress={handleFormDelete}
-        />
-        <Button
-          title="Cancel"
-          color="gray"
-          onPress={onClose}
-        />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Button
+            title="Save"
+            color="green"
+            onPress={handleFormSubmit}
+          />
+          <Button
+            title="Delete"
+            color="red"
+            onPress={handleFormDelete}
+          />
+          <Button
+            title="Cancel"
+            color="gray"
+            onPress={onClose}
+          />
+        </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

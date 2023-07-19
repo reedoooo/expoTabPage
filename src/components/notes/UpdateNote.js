@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Alert } from 'react-native';
 import EditNoteButton from '../modals/EditNoteButton';
+import Constants from 'expo-constants';
+
+const { REACT_APP_SERVER } = Constants.manifest.extra;
+console.log('REACT_APP_SERVER', REACT_APP_SERVER);
 
 function UpdateNote({
   onClose = () => {}, // Provide a default empty function if onClose is not passed
@@ -25,10 +29,10 @@ function UpdateNote({
       title: note.title,
       notes: note.notes,
     };
-
+    console.log('updatedData', updatedData);
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER}/api/notes/${updatedData.id}`,
+        `${REACT_APP_SERVER}/api/notes/${updatedData.id}`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -63,7 +67,7 @@ function UpdateNote({
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_SERVER}/api/notes/${selectedNote.id}`,
+        `${REACT_APP_SERVER}/api/notes/${selectedNote.id}`,
         {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },

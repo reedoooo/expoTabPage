@@ -1,28 +1,24 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, ImageBackground, Dimensions, StyleSheet } from 'react-native';
-import EditTabModalButton from '../buttons/EditTabModalButton'; // Assuming you have this component in the same directory
+import { View, Text, ImageBackground, StyleSheet } from 'react-native';
+import EditTabModalButton from '../buttons/EditTabModalButton';
 
 function Tab({ allTabs, tab, onOpenModal, onClose }) {
-  const { width } = Dimensions.get('window');
-  const aspectRatio = width / width; // Modify as per your needs
-  
   return (
-    <View style={[styles.gridItem, { width, height: width / aspectRatio }]}>
+    <View style={styles.gridItem}>
       <ImageBackground
         source={{ uri: tab.imgUrl }}
-        style={styles.button}
+        style={styles.backgroundImage}
+        imageStyle={styles.image}
+        resizeMode="cover" // or 'contain'
       >
+        <Text style={styles.title}>{tab.name}</Text>
         <EditTabModalButton
           allTabs={allTabs}
           onOpen={onOpenModal}
           onClose={onClose}
           tab={tab}
+          style={[styles.editButton, { position: 'relative', top: 10, right: 30, width: 30, height: 30 }]} // Updated styles
         />
-        <View style={styles.titleSection}>
-          <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>{tab.name}</Text>
-          </View>
-        </View>
       </ImageBackground>
     </View>
   );
@@ -30,31 +26,37 @@ function Tab({ allTabs, tab, onOpenModal, onClose }) {
 
 const styles = StyleSheet.create({
   gridItem: {
-    flexGrow: 1,
-    flexShrink: 1,
-    aspectRatio: 1,
-  },
-  button: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    borderRadius: 15,
+    margin: 10,
     overflow: 'hidden',
   },
-  titleSection: {
+  backgroundImage: {
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    height: '100%',
+    justifyContent: 'space-between',
+    padding: 10,
   },
-  titleContainer: {
-    marginBottom: '10%',
-    marginTop: '1%',
-    zIndex: 5,
+  image: {
+    borderRadius: 10,
   },
-  titleText: {
-    color: '#fff',
-    fontSize: 20,
+  title: {
+    color: '#000',  // Changed from '#fff' to '#000' for black text
+    fontSize: 12,   // Reduced from '16' to '12'
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  title: {
+    color: '#000',
+    fontSize: 12,
+    fontWeight: 'bold',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  editButton: {
+    alignSelf: 'flex-end',
   },
 });
 
